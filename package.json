@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@azure/msal-browser": "^4.24.0",
+    "@azure/msal-react": "^3.0.20",
+    "@react-oauth/google": "^0.12.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
@@ -11,9 +14,16 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
+    "axios": "^1.12.0",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "react": "^19.1.1",
+    "react-bootstrap": "^2.10.10",
+    "react-datepicker": "^8.7.0",
     "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.1",
     "react-scripts": "5.0.1",
+    "sweetalert2": "^11.24.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -40,5 +50,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-datepicker": "^6.2.0",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }
