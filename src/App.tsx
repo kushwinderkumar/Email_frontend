@@ -190,7 +190,7 @@ const App: React.FC = () => {
   const [emails, setEmails] = useState<Email[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {                                      // fech logged user
     async function fetchCurrentUser() {
       try {
         const res = await fetch("https://localhost:7262/api/auth/me", {
@@ -206,7 +206,7 @@ const App: React.FC = () => {
     fetchCurrentUser();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {                                           // fetch users
     const fetchUsers = async () => {
       try {
         const res = await axios.get<User[]>(
@@ -221,33 +221,57 @@ const App: React.FC = () => {
     fetchUsers();
   }, []);
 
-  // ------------------------ FETCH EMAILS WHEN SELECTED USER CHANGES ------------------------
-  useEffect(() => {
-    if (!selectedUserId) {
+ 
+  // useEffect(() => {
+  //   if (!selectedUserId) {
+  //     setEmails([]);
+  //     return;
+  //   }
+
+  //   const fetchEmails = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const res = await axios.get<Email[]>(
+  //         `https://localhost:7262/api/Users/inbox/${selectedUserId}`,
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       setEmails(Array.isArray(res.data) ? res.data : []);
+  //     } catch (err) {
+  //       console.error("Error fetching emails:", err);
+  //       setEmails([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchEmails();
+  // }, [selectedUserId]);
+
+  // checking refresh button
+   const fetchEmails = async (userId: string | null) => {
+    if (!userId) return;
+    setLoading(true);
+    try {
+      const res = await axios.get<Email[]>(
+        `https://localhost:7262/api/Users/inbox/${userId}`,
+        { withCredentials: true }
+      );
+      setEmails(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Error fetching emails:", err);
       setEmails([]);
-      return;
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const fetchEmails = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get<Email[]>(
-          `https://localhost:7262/api/Users/inbox/${selectedUserId}`,
-          {
-            withCredentials: true,
-          }
-        );
-        setEmails(Array.isArray(res.data) ? res.data : []);
-      } catch (err) {
-        console.error("Error fetching emails:", err);
-        setEmails([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEmails();
+  // Fetch emails whenever selectedUserId changes
+  useEffect(() => {
+    fetchEmails(selectedUserId);
   }, [selectedUserId]);
+
 
   const handleLogins = () => {
     window.location.href = "https://localhost:7262/api/auth/login";
@@ -283,6 +307,7 @@ const App: React.FC = () => {
                   selectedUserId={selectedUserId}
                   setSelectedUserId={setSelectedUserId}
                   setCurrentUser={setCurrentUser}
+                  onRefreshInbox={() => fetchEmails(selectedUserId)}
                 />
                 <div className="container-fluid" style={{ backgroundColor: "#bed8deff", minHeight: "100vh", paddingTop: "20px" }}>
                    {selectedUserId ? (

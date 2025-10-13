@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
                                             // this  is fully working code
 // import React from "react";
 // import axios from "axios";
@@ -133,10 +134,8 @@
 
 
                                         // testing code end here
-
-import React from "react";
 import axios from "axios";
-
+import React from "react";
 interface User {
   userId: string;
   email: string;
@@ -147,6 +146,7 @@ interface NavbarProps {
   selectedUserId: string | null;
   setSelectedUserId: (id: string) => void;
   setCurrentUser: (user: User | null) => void;
+  onRefreshInbox: (userId: string | null) => void;  // new prop for refresh function
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -154,14 +154,14 @@ const Navbar: React.FC<NavbarProps> = ({
   selectedUserId,
   setSelectedUserId,
   setCurrentUser,
+   onRefreshInbox,
+  
 }) => {
   
-
   const handleUserSelect = (userId: string) => {
- 
     setSelectedUserId(userId);
-  
   };
+
 
   const handleLogout = async () => {
     try {
@@ -170,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({
       console.error(err);
     } finally {
        localStorage.removeItem("accessToken"); // agar token local storage me store kar rahe ho to use remove karo
-      localStorage.clear(); // agar koi aur data local storage me hai to wo bhi clear kar do
+      localStorage.clear();                    // agar koi aur data local storage me hai to wo bhi clear kar do
       window.location.href = "/login";       
     }
   };
@@ -204,6 +204,13 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         <div>
+          <button
+            className="btn btn-info me-2 text-white p-2"
+            style={{ height: "48px" }}
+            onClick={() => onRefreshInbox(selectedUserId)} // ✅ Refresh inbox here
+          >
+            <i className="fa-solid fa-rotate"></i> Inbox Refresh
+          </button>
           <button className="btn btn-danger" onClick={handleLogout} style={{ height: "48px" }}>
             Logout
           </button>

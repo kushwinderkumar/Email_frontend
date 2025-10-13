@@ -12,3 +12,8 @@ a {
   max-width: 100%;
   display: inline-block;
 }
+.table-scroll {
+  display: block;
+  max-height: 400px;  /* jitna height chahiye utna fix karo */
+  overflow-y: auto;
+}
