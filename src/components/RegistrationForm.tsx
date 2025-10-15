@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { useState } from "react";
 import { registerUser } from "../services/Auth";
 import Swal from "sweetalert2";
@@ -8,7 +8,7 @@ const RegistrationForm: React.FC = () => {
 const [showPassword, setShowPassword] = useState(false);
   const handleRegister = async (formData: { name: string; email: string; password: string }) => {
     try {
-        const response = await registerUser({ userName: formData.email, userPassword: formData.password });
+         await registerUser({ userName: formData.email, userPassword: formData.password });
         await Swal.fire({
             icon: 'success',
             title: 'Registration Successful',
@@ -30,10 +30,10 @@ const [showPassword, setShowPassword] = useState(false);
     const newErrors = { name: "", email: "", password: "" };
     if (!formData.name.trim()) newErrors.name = "Name is required";
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    if (!formData.email.trim()) newErrors.email = "UserName is required";
-    else if (!gmailRegex.test(formData.email)) newErrors.email = "Enter a valid UserName address";
-    if (!formData.password.trim()) newErrors.password = "UserPassword is required";
-    else if (formData.password.length < 6) newErrors.password = " UserPassword must be at least 6 characters";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!gmailRegex.test(formData.email)) newErrors.email = "Enter a valid Email address";
+    if (!formData.password.trim()) newErrors.password = "Password is required";
+    else if (formData.password.length < 6) newErrors.password = " Password must be at-least 6 characters";
     return newErrors;
   };
   
@@ -60,7 +60,6 @@ const [showPassword, setShowPassword] = useState(false);
     >
       <div className="card shadow-lg p-4" style={{ width: "800px", borderRadius: "15px" }}>
         <div className="row g-0">
-          {/* Left side - Registration form */}
           <div className="col-md-7 p-4 bg-white rounded-start">
             <h3 className="text-center fw-bold mb-4">Register</h3>
             <form onSubmit={handleSubmit}>

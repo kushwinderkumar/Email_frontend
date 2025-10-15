@@ -8,10 +8,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
-// const  root=ReactDOM.createRoot(document.getElementById("root")!);
-// root.render(
-//   <MsalProvider instance={msalInstance}>
-//     <App />
-//   </MsalProvider>
-// );

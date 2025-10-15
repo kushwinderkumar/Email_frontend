@@ -1,10 +1,10 @@
 @import url('./another-file.css');
 
-/* Your existing CSS code below */
+
 .App {
   text-align: center;
 }
-/* ...rest of your CSS */
+
 
 a {
   word-break: break-word !important;
@@ -14,6 +14,6 @@ a {
 }
 .table-scroll {
   display: block;
-  max-height: 400px;  /* jitna height chahiye utna fix karo */
+  max-height: 400px; 
   overflow-y: auto;
 }

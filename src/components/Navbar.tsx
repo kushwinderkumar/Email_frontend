@@ -132,8 +132,7 @@
 // export default Navbar;
 
 
-
-                                        // testing code end here
+                                   // testing code end here
 import axios from "axios";
 import React from "react";
 interface User {
@@ -207,7 +206,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <button
             className="btn btn-info me-2 text-white p-2"
             style={{ height: "48px" }}
-            onClick={() => onRefreshInbox(selectedUserId)} // ✅ Refresh inbox here
+            onClick={() => onRefreshInbox(selectedUserId)} 
           >
             <i className="fa-solid fa-rotate"></i> Inbox Refresh
           </button>
