@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./components/Navbar";
 import LoginCard from "./components/LoginCard";
-import EmailTable from "./components/EmailTable";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import RegistrationForm from "./components/RegistrationForm";
 import PublicRoute from "./components/PublicRoute";
 import PrivateRoute from "./components/PrivateRoute";
+import EmailTable from "./components/EmailTable";
 
 type User = {
   userId: string;
@@ -128,8 +129,8 @@ const App: React.FC = () => {
                    {selectedUserId ? (
                   loading ? (
                     <div style={{ textAlign: "center", marginTop: "20px " }}>
-                      <span className="spinner-border text-primary me-2" role="status"></span>
-                      <p>Loading email...</p>
+                      <span className="spinner-border text-primary  me-2" role="status"></span>
+                      <p >Loading emails...</p>
                     </div>
                   ) : (
                     // changing  this  parameters
@@ -138,6 +139,7 @@ const App: React.FC = () => {
                 ) : (
                   <div style={{ textAlign: "center", marginTop: "30px"   }}>
                     <h4 className="text-center  text-danger" >
+                      <img src="front.png" alt="Alert"   className="img-fluid mb-2" style={{ maxWidth: "1000px" }}/>
                       Please select a dropdown-list  /  Sing-in with Google !!
                     </h4>
                     
@@ -158,7 +160,7 @@ export default App;
 
 
 
-                // show the model
+                // show the modal
 
 // import React, { useEffect, useState } from "react";
 // import axios from "axios";
