@@ -1,4 +1,3 @@
-
 // import React, { useState, useEffect } from "react";
 // import { Modal, Button, Form } from "react-bootstrap";
 // import ReactDatePicker from "react-datepicker";
@@ -73,7 +72,7 @@
 //   //  Attachment Viewer Component
 //   interface AttachmentViewerProps {
 //     attachment: EmailAttachment;
-//   userId: string; 
+//   userId: string;
 //   messageId: string;
 //   }
 
@@ -146,7 +145,6 @@
 //     );
 //   }
 
-   
 //     if (mime === "application/pdf") {
 //     return (
 //       <div style={{ marginBottom: "15px" }}>
@@ -462,7 +460,7 @@
 //   );
 // };
 
-// export default EmailTable;                 // this code is working  this code hide only checking 
+// export default EmailTable;                 // this code is working  this code hide only checking
 
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -503,10 +501,9 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-
   const pageSize = 15;
 
-  // 🔍 Filter emails
+  //  Filter emails
   const filteredEmails = emails.filter((email) => {
     const from = email.from?.toLowerCase() || "";
     const subject = email.subject?.toLowerCase() || "";
@@ -528,7 +525,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
   const startIndex = (currentPage - 1) * pageSize;
   const currentEmails = filteredEmails.slice(startIndex, startIndex + pageSize);
 
-  // 📎 Attachment viewer
+  //  Attachment viewer
   interface AttachmentViewerProps {
     attachment: EmailAttachment;
     userId: string;
@@ -597,39 +594,49 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
           <img
             src={blobUrl}
             alt={attachment.fileName}
-            style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: "8px" }}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "400px",
+              borderRadius: "8px",
+            }}
           />
         </div>
       );
     }
+   if (mime === "application/pdf") {
+  return (
+    <div style={{ marginBottom: "15px" }}>
+      <p>{attachment.fileName}</p>
+      <a
+        href={blobUrl}
+        download={attachment.fileName}
+        className="btn btn-sm btn-outline-primary"
+      >
+        Download PDF
+      </a>
+    </div>
+  );
+}
 
-    if (mime === "application/pdf") {
-      return (
-        <div style={{ marginBottom: "15px" }}>
-          <p>{attachment.fileName}</p>
-          <object data={blobUrl} type="application/pdf" width="100%" height="500px">
-            PDF preview not supported.{" "}
-            <a href={blobUrl} download={attachment.fileName}>
-              Download PDF
-            </a>
-          </object>
-          <div style={{ marginTop: "5px" }}>
-            <a href={blobUrl} download={attachment.fileName} className="btn btn-sm btn-outline-primary">
-              Download PDF
-            </a>
-          </div>
-        </div>
-      );
-    }
 
     if (mime === "text/plain") {
       return (
         <div style={{ marginBottom: "15px" }}>
           <p>{attachment.fileName}</p>
-          <pre style={{ backgroundColor: "#f0f0f0", padding: "10px", borderRadius: "6px" }}>
+          <pre
+            style={{
+              backgroundColor: "#f0f0f0",
+              padding: "10px",
+              borderRadius: "6px",
+            }}
+          >
             {textContent || "Loading..."}
           </pre>
-          <a href={blobUrl} download={attachment.fileName} className="btn btn-sm btn-outline-primary mt-2">
+          <a
+            href={blobUrl}
+            download={attachment.fileName}
+            className="btn btn-sm btn-outline-primary mt-2"
+          >
             Download
           </a>
         </div>
@@ -647,7 +654,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
 
   return (
     <div className="email-table-container">
-      {/* 🔹 Filters */}
+      {/*  Filters */}
       <div
         className="table-responsive py-3 px-2 m-2 shadow-sm"
         style={{ backgroundColor: "#8ed1d1ff", borderRadius: "10px" }}
@@ -704,7 +711,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
           </div>
         </div>
 
-        {/* 🔹 Email Table */}
+        {/*  Email Table */}
         <div style={{ overflowX: "auto" }}>
           <table className="table table-striped table-hover table-bordered shadow-sm">
             <thead style={{ backgroundColor: "#ffb3c6", color: "#333" }}>
@@ -723,7 +730,9 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
                     <td>{startIndex + index + 1}</td>
                     <td>{email.from || "(Unknown)"}</td>
                     <td>{email.subject || "(No Subject)"}</td>
-                    <td>{email.date ? new Date(email.date).toLocaleString() : "-"}</td>
+                    <td>
+                      {email.date ? new Date(email.date).toLocaleString() : "-"}
+                    </td>
                     <td>
                       <Button
                         className="btn btn-info me-2"
@@ -751,7 +760,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
           </table>
         </div>
 
-        {/* 🔹 Pagination */}
+        {/*  Pagination */}
         <footer
           className="d-flex justify-content-center align-items-center"
           style={{ padding: "20px" }}
@@ -776,7 +785,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
         </footer>
       </div>
 
-      {/* 🔹 View Email Modal */}
+      {/*  View Email Modal */}
       <Modal
         show={selectedEmail !== null}
         onHide={() => setSelectedEmail(null)}
@@ -847,113 +856,119 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
         </Modal.Footer>
       </Modal>
 
-      {/* 🔹 Reply Modal */}
+      {/* Reply Modal */}
       <Modal
-  show={replyingEmail !== null}
-  onHide={() => setReplyingEmail(null)}
-  centered
-  backdrop="static"
-  keyboard={false}
->
-  <Modal.Header closeButton style={{ backgroundColor: "#d1e7ff" }}>
-    <Modal.Title>Reply to {replyingEmail?.from}</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form.Control
-      as="textarea"
-      rows={5}
-      placeholder="Type your reply..."
-      value={replyMessage}
-      onChange={(e) => setReplyMessage(e.target.value)}
-    />
+        show={replyingEmail !== null}
+        onHide={() => setReplyingEmail(null)}
+        centered
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton style={{ backgroundColor: "#d1e7ff" }}>
+          <Modal.Title>Reply to {replyingEmail?.from}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control
+            as="textarea"
+            rows={5}
+            placeholder="Type your reply..."
+            value={replyMessage}
+            onChange={(e) => setReplyMessage(e.target.value)}
+          />
 
-    {/* File Attachment Input */}
-    <div className="mt-3">
-  <Form.Label className="text-primary fw-bold">Attachments:-</Form.Label>
-  <Form.Control
-    type="file"
-    multiple
-    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(e.target.files || []);
-      setSelectedFiles((prev) => [...prev, ...files]);
-    }}
-  />
+          {/* File Attachment Input */}
+          <div className="mt-3">
+            <Form.Label className="text-primary fw-bold">
+              Attachments:-
+            </Form.Label>
+            <Form.Control
+              type="file"
+              multiple
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const files = Array.from(e.target.files || []);
+                setSelectedFiles((prev) => [...prev, ...files]);
+              }}
+            />
 
-  {selectedFiles.length > 0 && (
-    <ul className="mt-2 list-unstyled">
-      {selectedFiles.map((file, i) => (
-        <li
-          key={i}
-          className="d-flex align-items-center justify-content-between bg-light rounded px-2 py-1 mb-1"
-          style={{ border: "1px solid #ccc" }}
+            {selectedFiles.length > 0 && (
+              <ul className="mt-2 list-unstyled">
+                {selectedFiles.map((file, i) => (
+                  <li
+                    key={i}
+                    className="d-flex align-items-center justify-content-between bg-light rounded px-2 py-1 mb-1"
+                    style={{ border: "1px solid #ccc" }}
+                  >
+                    <span className="text-secondary">{file.name}</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-danger ms-2"
+                      onClick={() => {
+                        setSelectedFiles(
+                          selectedFiles.filter((_, index) => index !== i)
+                        );
+                      }}
+                    >
+                      ❌
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer
+          style={{
+            backgroundColor: "#b1cbe4ff",
+            textAlign: "center",
+            padding: "10px 0",
+            color: "#555",
+            borderTop: "1px solid #b29292ff",
+          }}
         >
-          <span className="text-secondary">{file.name}</span>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-danger ms-2"
-            onClick={() => {
-              setSelectedFiles(selectedFiles.filter((_, index) => index !== i));
+          <Button variant="secondary" onClick={() => setReplyingEmail(null)}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            disabled={!replyingEmail || !replyMessage.trim()}
+            onClick={async () => {
+              try {
+                const formData = new FormData();
+                formData.append("UserId", userId || "");
+                formData.append("EmailMessageId", replyingEmail?.id || "");
+                formData.append("ReplyBody", replyMessage);
+
+                // Add attachments
+                selectedFiles.forEach((file) =>
+                  formData.append("Attachments", file)
+                );
+
+                const response = await fetch(
+                  "https://localhost:7262/api/Users/reply",
+                  {
+                    method: "POST",
+                    body: formData,
+                    credentials: "include",
+                  }
+                );
+
+                if (!response.ok) throw new Error("Failed to send reply");
+
+                setReplyMessage("");
+                setSelectedFiles([]);
+                setReplyingEmail(null);
+                Swal.fire(" Success", "Reply sent successfully!", "success");
+              } catch (err: any) {
+                Swal.fire(" Error", err.message, "error");
+              }
             }}
           >
-            ❌
-          </button>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
-
-  </Modal.Body>
-  <Modal.Footer  style={{
-    backgroundColor: "#b1cbe4ff",
-    textAlign: "center",
-    padding: "10px 0",
-    color: "#555",
-    borderTop: "1px solid #b29292ff",
-  }}>
-    <Button variant="secondary" onClick={() => setReplyingEmail(null)}>
-      Cancel
-    </Button>
-    <Button
-      variant="primary"
-      disabled={!replyingEmail || !replyMessage.trim()}
-      onClick={async () => {
-        try {
-          const formData = new FormData();
-          formData.append("UserId", userId || "");
-          formData.append("EmailMessageId", replyingEmail?.id || "");
-          formData.append("ReplyBody", replyMessage);
-
-          // Add attachments
-          selectedFiles.forEach((file) => formData.append("Attachments", file));
-
-          const response = await fetch(
-            "https://localhost:7262/api/Users/reply",
-            {
-              method: "POST",
-              body: formData,
-              credentials: "include",
-            }
-          );
-
-          if (!response.ok) throw new Error("Failed to send reply");
-
-          setReplyMessage("");
-          setSelectedFiles([]);
-          setReplyingEmail(null);
-          Swal.fire(" Success", "Reply sent successfully!", "success");
-        } catch (err: any) {
-          Swal.fire(" Error", err.message, "error");
-        }
-      }}
-    >
-      Send Reply
-    </Button>
-  </Modal.Footer>
-</Modal>
+            Send Reply
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 
 export default EmailTable;
-

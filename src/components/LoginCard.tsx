@@ -22,7 +22,7 @@ const LoginCard: React.FC<LoginCardProps> = () => {
     if (!token) {
       throw new Error("Token not received from server");
     }
-    localStorage.setItem("Token", token); // previous code
+    localStorage.setItem("Token", token);  // previous code
   
 
    await Swal.fire({
@@ -151,7 +151,7 @@ const LoginCard: React.FC<LoginCardProps> = () => {
             }}
           >
             <h4 className="fw-bold mb-3">New here?</h4>
-            <p className="mb-4">Create an account and join our platform!</p>
+            <p className="mb-4">Create an account and join our platform !!</p>
             <a href="/register" className="btn btn-outline-light fw-bold">
               New Registration
             </a>
