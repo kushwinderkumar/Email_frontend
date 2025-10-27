@@ -23,9 +23,13 @@ const Inbox: React.FC<{ userId: string }> = ({ userId }) => {
     try {
       const res = await axios.get<Email[]>(
         `https://localhost:7262/api/Users/inbox/${userId}`,
+           
         { withCredentials: true }
+     
       );
+        alert("Emails refreshed successfully!");
       setEmails(Array.isArray(res.data) ? res.data : []);
+      
     } catch (err) {
       console.error("Error fetching emails:", err);
       setEmails([]);

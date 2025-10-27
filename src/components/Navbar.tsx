@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-                                            // this  is fully working code
+// this  is fully working code
 // import React from "react";
 // import axios from "axios";
 
@@ -62,9 +62,7 @@
 // //               </option>
 // //             ))}
 // //           </select>
-          
 
-          
 // //     {/* Center: Google Login Button */}
 // //     <div className="d-flex justify-content-center flex-grow-1">
 // //       <button
@@ -88,14 +86,14 @@
 //   style={{ background: "linear-gradient(to right, #202c2c, #1a1f1f)" }}
 // >
 //   <div className="container-fluid d-flex align-items-center">
-    
+
 //     <div className="d-flex align-items-center">
 //       <span className="navbar-brand mb-0 h1 text-white">Gmail Client</span>
 //       <select
 //         className="form-select ms-3"
 //         value={selectedUserId || ""}
 //         onChange={(e) => setSelectedUserId(e.target.value)}
-//         style={{ height: "48px" }} 
+//         style={{ height: "48px" }}
 //       >
 //         <option value="" className="text-muted">Select Gmail User</option>
 //         {users.map((user) => (
@@ -107,17 +105,17 @@
 //       <button
 //         onClick={handleLogin}
 //         className="btn btn-primary fs-5"
-//         style={{ height: "48px" }} 
+//         style={{ height: "48px" }}
 //       >
 //         <i className="bi bi-google me-2 fs-5"></i> Login with Google
 //       </button>
-      
+
 //     </div>
 //     <div>
 //       <button
 //         className="btn btn-danger"
 //         onClick={handleLogout}
-//         style={{ height: "48px" }} 
+//         style={{ height: "48px" }}
 //       >
 //         Logout
 //       </button>
@@ -131,10 +129,10 @@
 
 // export default Navbar;
 
-
-                                   // testing code end here
+// testing code end here
 import axios from "axios";
 import React from "react";
+import Swal from "sweetalert2";
 interface User {
   userId: string;
   email: string;
@@ -144,33 +142,31 @@ interface NavbarProps {
   users: User[];
   selectedUserId: string | null;
   setSelectedUserId: (id: string) => void;
-  setCurrentUser: (user: User | null) => void;
-  onRefreshInbox: (userId: string | null) => void;  // new prop for refresh function
+  onRefreshInbox: (userId: string | null) => void; //new prop for refresh function
+  // onRefreshInbox: (userId: string | null) => Promise<void>;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
   users,
   selectedUserId,
   setSelectedUserId,
-  setCurrentUser,
-   onRefreshInbox,
-  
+  onRefreshInbox,
 }) => {
-  
   const handleUserSelect = (userId: string) => {
     setSelectedUserId(userId);
   };
 
-
   const handleLogout = async () => {
     try {
-      await axios.get("https://localhost:7262/api/auth/logout", { withCredentials: true });
+      await axios.get("https://localhost:7262/api/auth/logout", {
+        withCredentials: true,
+      });
     } catch (err) {
       console.error(err);
     } finally {
-       localStorage.removeItem("accessToken"); // agar token local storage me store kar rahe ho to use remove karo
-      localStorage.clear();                    // agar koi aur data local storage me hai to wo bhi clear kar do
-      window.location.href = "/login";       
+      localStorage.removeItem("accessToken"); // agar token local storage me store kar rahe ho to use remove karo
+      localStorage.clear();                   // agar koi aur data local storage me hai to wo bhi clear kar do
+      window.location.href = "/login";
     }
   };
 
@@ -179,7 +175,10 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <nav className="navbar shadow-sm px-4 py-2" style={{ background: "linear-gradient(to right, #202c2c, #1a1f1f)" }}>
+    <nav
+      className="navbar shadow-sm px-4 py-2"
+      style={{ background: "linear-gradient(to right, #202c2c, #1a1f1f)" }}
+    >
       <div className="container-fluid d-flex align-items-center">
         <div className="d-flex align-items-center">
           <span className="navbar-brand mb-0 h1 text-white">Gmail Client</span>
@@ -189,15 +188,23 @@ const Navbar: React.FC<NavbarProps> = ({
             onChange={(e) => handleUserSelect(e.target.value)}
             style={{ height: "48px" }}
           >
-            <option value="" className="text-muted">Select Gmail User</option>
+            <option value="" className="text-muted">
+              Select Gmail User
+            </option>
             {users.map((user) => (
-              <option key={user.userId} value={user.userId}>{user.email}</option>
+              <option key={user.userId} value={user.userId}>
+                {user.email}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="flex-grow-1 d-flex p-2">
-          <button onClick={handleLogin} className="btn btn-outline-danger fs-5" style={{ height: "48px" }}>
+          <button
+            onClick={handleLogin}
+            className="btn btn-outline-danger fs-5"
+            style={{ height: "48px" }}
+          >
             <i className="bi bi-google me-2 fs-5"></i> Sign-in with Google
           </button>
         </div>
@@ -206,11 +213,28 @@ const Navbar: React.FC<NavbarProps> = ({
           <button
             className="btn btn-info me-2 text-white p-2"
             style={{ height: "48px" }}
-            onClick={() => onRefreshInbox(selectedUserId)} 
+            // onClick={() => onRefreshInbox(selectedUserId)}             // previous line
+            // onClick={async()=>await onRefreshInbox(selectedUserId)}
+            onClick={async () => {
+              if (!selectedUserId) {
+                Swal.fire(
+                  "No User Selected ??",
+                  "Please select a user to refresh the inbox.",
+                  "warning"
+                );
+                return;
+              }
+              await onRefreshInbox(selectedUserId);
+            }}
           >
             <i className="fa-solid fa-rotate"></i> Inbox Refresh
           </button>
-          <button className="btn btn-danger" onClick={handleLogout} style={{ height: "48px" }}>
+
+          <button
+            className="btn btn-danger"
+            onClick={handleLogout}
+            style={{ height: "48px" }}
+          >
             Logout
           </button>
         </div>

@@ -654,7 +654,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
 
   return (
     <div className="email-table-container">
-      {/*  Filters */}
+      
       <div
         className="table-responsive py-3 px-2 m-2 shadow-sm"
         style={{ backgroundColor: "#8ed1d1ff", borderRadius: "10px" }}
@@ -958,6 +958,7 @@ const EmailTable: React.FC<EmailTableProps> = ({ emails, userId }) => {
                 setSelectedFiles([]);
                 setReplyingEmail(null);
                 Swal.fire(" Success", "Reply sent successfully!", "success");
+                
               } catch (err: any) {
                 Swal.fire(" Error", err.message, "error");
               }
